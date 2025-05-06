@@ -1,0 +1,185 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5DC; /* Beige claro para el fondo */
+    color: #5D4037; /* Marrón chocolate para el texto principal */
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Cabecera */
+.cabecera {
+    background-color: #008080; /* Azul turquesa oscuro */
+    color: #FFF8E1; /* Beige claro para texto */
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido principal */
+.contenido-principal {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+/* Secciones */
+.seccion {
+    background-color: #FFF8E1; /* Beige claro */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #D2B48C; /* Marrón claro para el borde */
+}
+
+/* Títulos de sección */
+.titulo-seccion {
+    color: #008080; /* Azul turquesa */
+    border-bottom: 2px solid #D2B48C; /* Marrón claro */
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Tablas */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white;
+}
+
+/* Celdas de tabla */
+.celda-cabecera, .celda-dato {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #D2B48C; /* Marrón claro */
+}
+
+.celda-cabecera {
+    background-color: #008080; /* Azul turquesa */
+    color: #FFF8E1; /* Beige claro para texto */
+    font-weight: bold;
+}
+
+/* Filas de tabla */
+.fila-tabla:hover {
+    background-color: #E0F7FA; /* Azul turquesa muy claro */
+}
+
+/* Grupos de formulario */
+.grupo-formulario {
+    margin-bottom: 15px;
+}
+
+/* Campos de entrada */
+.campo-entrada {
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #D2B48C; /* Marrón claro */
+    border-radius: 4px;
+    width: calc(100% - 20px);
+    margin-bottom: 5px;
+    background-color: #FFF8E1; /* Beige claro */
+    color: #5D4037; /* Marrón chocolate */
+}
+
+.campo-entrada:focus {
+    outline: 2px solid #4DB6AC; /* Azul turquesa medio */
+    border-color: transparent;
+}
+
+/* Botones */
+.boton {
+    padding: 8px 15px;
+    background-color: #4DB6AC; /* Azul turquesa medio */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.boton:hover {
+    background-color: #008080; /* Azul turquesa oscuro */
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Botones especiales */
+.boton-filtrar {
+    background-color: #A1887F; /* Marrón medio */
+}
+
+.boton-restablecer {
+    background-color: #8D6E63; /* Marrón un poco más oscuro */
+}
+
+.boton-filtrar:hover, .boton-restablecer:hover {
+    background-color: #5D4037; /* Marrón chocolate */
+}
+
+.boton-calcular {
+    background-color: #26A69A; /* Azul turquesa vibrante */
+}
+
+.boton-calcular:hover {
+    background-color: #00897B; /* Azul turquesa más oscuro */
+}
+
+/* Resultados de búsqueda */
+.resultado-busqueda {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #E0F2F1; /* Azul turquesa muy claro */
+    border-radius: 4px;
+    min-height: 50px;
+    border-left: 4px solid #008080; /* Azul turquesa */
+    color: #5D4037; /* Marrón chocolate */
+}
+
+/* Efectos para las secciones */
+.seccion:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* Responsive - Diseño adaptable */
+@media (max-width: 900px) {
+    .contenido-principal {
+        grid-template-columns: 1fr;
+    }
+    
+    .seccion {
+        margin-bottom: 20px;
+    }
+}
+
+/* Estilos para alertas y mensajes */
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.alert-info {
+    background-color: #B2DFDB; /* Azul turquesa claro */
+    color: #00695C; /* Azul turquesa oscuro */
+    border-left: 4px solid #008080;
+}
+
+/* Efecto de transición para toda la página */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

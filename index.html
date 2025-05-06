@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Pedidos Online</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="cabecera">
+            <h1>Gestión de Pedidos Tecnológicos</h1>
+        </div>
+
+        <div class="contenido-principal">
+            <section class="seccion">
+                <h2 class="titulo-seccion">Zonas y Tarifas</h2>
+                <div class="grupo-formulario">
+                    <button id="calcularPromedio" class="boton boton-calcular">Calcular Promedio de Pedidos</button>
+                </div>
+                <table class="tabla" id="tablaZonas">
+                    <thead>
+                        <tr>
+                            <th class="celda-cabecera">Zona</th>
+                            <th class="celda-cabecera">Tarifa</th>
+                            <th class="celda-cabecera">Pedidos (últimos 7 días)</th>
+                            <th class="celda-cabecera">Promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de zonas se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="seccion">
+                <h2 class="titulo-seccion">Lista de Productos</h2>
+                <div class="grupo-formulario">
+                    <input type="text" id="nombreProducto" class="campo-entrada" placeholder="Nombre del producto">
+                    <input type="number" id="precioProducto" class="campo-entrada" placeholder="Precio" step="0.01">
+                    <input type="number" id="stockProducto" class="campo-entrada" placeholder="Stock">
+                    <button id="agregarProducto" class="boton">Añadir Producto</button>
+                </div>
+                <div class="grupo-formulario">
+                    <input type="number" id="filtroStock" class="campo-entrada" placeholder="Filtrar por stock menor que">
+                    <button id="filtrarProductos" class="boton boton-filtrar">Filtrar</button>
+                    <button id="restablecerFiltro" class="boton boton-restablecer">Restablecer</button>
+                </div>
+                <table class="tabla" id="tablaProductos">
+                    <thead>
+                        <tr>
+                            <th class="celda-cabecera">ID</th>
+                            <th class="celda-cabecera">Nombre</th>
+                            <th class="celda-cabecera">Precio</th>
+                            <th class="celda-cabecera">Stock</th>
+                            <th class="celda-cabecera">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de productos se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="seccion">
+                <h2 class="titulo-seccion">Administrador de Colecciones</h2>
+                <div class="grupo-formulario">
+                    <input type="text" id="entradaColeccion" class="campo-entrada" placeholder="Ingrese ID...">
+                    <button id="buscarElemento" class="boton">Buscar Elemento</button>
+                </div>
+                <div id="resultadoBusqueda" class="resultado-busqueda">
+                    <!-- Resultados de búsqueda aparecerán aquí -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
