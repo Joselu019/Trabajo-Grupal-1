@@ -1,4 +1,4 @@
-// // Parte 1 - Gestión de zonas y tarifas
+// Parte 1 - Gestión de zonas y tarifas
 const datosZonas = [
     ["Norte", 5.0, [12, 15, 14, 13, 16, 14, 17]],
     ["Este", 4.5, [9, 8, 12, 10, 11, 10, 9]],
@@ -8,19 +8,19 @@ const datosZonas = [
 function calcularPromedioPedidos() {
     const cuerpoTablaZonas = document.querySelector("#tablaZonas tbody");
     cuerpoTablaZonas.innerHTML = "";
-    
+
     let zonaMasActiva = "";
     let promedioMasAlto = 0;
-    
+
     datosZonas.forEach(zona => {
         const [nombre, tarifa, pedidos] = zona;
         const promedio = _.round(_.sum(pedidos) / pedidos.length, 2);
-        
+
         if (promedio > promedioMasAlto) {
             promedioMasAlto = promedio;
             zonaMasActiva = nombre;
         }
-        
+
         const fila = document.createElement("tr");
         fila.className = "fila-tabla";
         fila.innerHTML = `
@@ -31,7 +31,7 @@ function calcularPromedioPedidos() {
         `;
         cuerpoTablaZonas.appendChild(fila);
     });
-    
+
     alert(`La zona más activa es ${zonaMasActiva} con un promedio de ${promedioMasAlto} pedidos por día`);
 }
 
@@ -43,10 +43,17 @@ let productos = [
     { id: 4, nombre: "Monitor", precio: 300, stock: 5 }
 ];
 
+function reasignarIds() {
+    productos.forEach((producto, index) => {
+        producto.id = index + 1;
+    });
+    administradorProductos.sincronizarCon(productos);
+}
+
 function mostrarProductos(productosAMostrar = productos) {
     const cuerpoTablaProductos = document.querySelector("#tablaProductos tbody");
     cuerpoTablaProductos.innerHTML = "";
-    
+
     productosAMostrar.forEach(producto => {
         const fila = document.createElement("tr");
         fila.className = "fila-tabla";
@@ -68,18 +75,17 @@ function agregarProducto() {
     const nombre = document.getElementById("nombreProducto").value;
     const precio = parseFloat(document.getElementById("precioProducto").value);
     const stock = parseInt(document.getElementById("stockProducto").value);
-    
+
     if (!nombre || isNaN(precio) || isNaN(stock)) {
         alert("Por favor complete todos los campos con datos válidos");
         return;
     }
-    
-    const nuevoId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) + 1 : 1;
-    const nuevoProducto = { id: nuevoId, nombre, precio, stock };
+
+    const nuevoProducto = { id: 0, nombre, precio, stock }; // ID temporal
     productos.push(nuevoProducto);
-    
+    reasignarIds();
     mostrarProductos();
-    
+
     // Limpiar campos
     document.getElementById("nombreProducto").value = "";
     document.getElementById("precioProducto").value = "";
@@ -88,6 +94,7 @@ function agregarProducto() {
 
 function eliminarProducto(id) {
     productos = productos.filter(producto => producto.id !== id);
+    reasignarIds();
     mostrarProductos();
 }
 
@@ -108,7 +115,7 @@ function filtrarProductosPorStock() {
         alert("Por favor ingrese un número válido");
         return;
     }
-    
+
     const productosFiltrados = productos.filter(producto => producto.stock < umbral);
     mostrarProductos(productosFiltrados);
 }
@@ -118,26 +125,30 @@ class AdministradorColecciones {
     constructor() {
         this.elementos = [];
     }
-    
+
     agregar(elemento) {
         this.elementos.push(elemento);
     }
-    
+
     eliminarPorId(id) {
         this.elementos = this.elementos.filter(elemento => elemento.id !== id);
     }
-    
+
     buscarPorId(id) {
         return this.elementos.find(elemento => elemento.id === id);
     }
-    
+
     listarTodos() {
         return [...this.elementos];
+    }
+
+    sincronizarCon(lista) {
+        this.elementos = [...lista];
     }
 }
 
 const administradorProductos = new AdministradorColecciones();
-productos.forEach(producto => administradorProductos.agregar(producto));
+administradorProductos.sincronizarCon(productos);
 
 // Parte 5 - Método genérico
 function compararPorClave(arr, clave) {
@@ -146,25 +157,23 @@ function compararPorClave(arr, clave) {
 
 // Inicialización de la aplicación
 function inicializarAplicacion() {
-    // Mostrar datos iniciales
     mostrarProductos();
-    
-    // Event listeners
+
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);
     document.getElementById("agregarProducto").addEventListener("click", agregarProducto);
     document.getElementById("filtrarProductos").addEventListener("click", filtrarProductosPorStock);
     document.getElementById("restablecerFiltro").addEventListener("click", () => mostrarProductos());
-    
+
     document.getElementById("buscarElemento").addEventListener("click", () => {
         const id = parseInt(document.getElementById("entradaColeccion").value);
         if (isNaN(id)) {
             alert("Por favor ingrese un ID válido");
             return;
         }
-        
+
         const elemento = administradorProductos.buscarPorId(id);
         const resultadoDiv = document.getElementById("resultadoBusqueda");
-        
+
         if (elemento) {
             resultadoDiv.innerHTML = `
                 <p><strong>Elemento encontrado:</strong></p>
