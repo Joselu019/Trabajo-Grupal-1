@@ -60,7 +60,7 @@ function mostrarProductos(productosAMostrar = productos) {
         fila.innerHTML = `
             <td class="celda-dato">${producto.id}</td>
             <td class="celda-dato">${producto.nombre}</td>
-            <td class="celda-dato">$${producto.precio}</td>
+            <td class="celda-dato">${producto.precio}€</td>
             <td class="celda-dato">${producto.stock}</td>
             <td class="celda-dato">
                 <button onclick="actualizarStock(${producto.id})" class="boton">Actualizar Stock</button>
@@ -163,6 +163,9 @@ function inicializarAplicacion() {
     document.getElementById("agregarProducto").addEventListener("click", agregarProducto);
     document.getElementById("filtrarProductos").addEventListener("click", filtrarProductosPorStock);
     document.getElementById("restablecerFiltro").addEventListener("click", () => mostrarProductos());
+    document.getElementById("buscarPorTarifa").addEventListener("click", buscarPorTarifa);
+    document.getElementById("restablecerTarifas").addEventListener("click", () => mostrarZonasFiltradas());
+    mostrarZonasFiltradas();
 
     document.getElementById("buscarElemento").addEventListener("click", () => {
         const id = parseInt(document.getElementById("entradaColeccion").value);
@@ -189,3 +192,42 @@ function inicializarAplicacion() {
 }
 
 document.addEventListener("DOMContentLoaded", inicializarAplicacion);
+
+
+function mostrarZonasFiltradas(zonas = datosZonas) {
+    const cuerpoTablaZonas = document.querySelector("#tablaZonas tbody");
+    cuerpoTablaZonas.innerHTML = "";
+
+    zonas.forEach(zona => {
+        const [nombre, tarifa, pedidos] = zona;
+        const promedio = _.round(_.sum(pedidos) / pedidos.length, 2);
+
+        const fila = document.createElement("tr");
+        fila.className = "fila-tabla";
+        fila.innerHTML = `
+            <td class="celda-dato">${nombre}</td>
+            <td class="celda-dato">${tarifa}</td>
+            <td class="celda-dato">${pedidos.join(", ")}</td>
+            <td class="celda-dato">${promedio}</td>
+        `;
+        cuerpoTablaZonas.appendChild(fila);
+    });
+}
+
+function buscarPorTarifa() {
+    const tarifaBuscada = parseFloat(document.getElementById("buscarTarifa").value);
+    
+    if (isNaN(tarifaBuscada)) {
+        alert("Por favor ingrese una tarifa válida");
+        return;
+    }
+
+    const zonasFiltradas = datosZonas.filter(zona => zona[1] === tarifaBuscada);
+    
+    if (zonasFiltradas.length === 0) {
+        alert("No se encontraron zonas con esa tarifa exacta");
+        return;
+    }
+
+    mostrarZonasFiltradas(zonasFiltradas);
+}
