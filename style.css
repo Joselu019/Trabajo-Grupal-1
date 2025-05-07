@@ -107,6 +107,8 @@ body {
     margin-right: 5px;
     transition: all 0.3s ease;
     font-weight: bold;
+    font-size: small;
+    margin-bottom: 10px;
 }
 
 .boton:hover {
@@ -148,11 +150,11 @@ body {
 }
 
 /* Efectos para las secciones */
-.seccion:hover {
+/* .seccion:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
-}
+} */
 
 /* Responsive - Diseño adaptable */
 @media (max-width: 900px) {
