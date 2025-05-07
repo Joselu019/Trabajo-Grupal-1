@@ -5,6 +5,8 @@ const datosZonas = [
     ["Sur", 4.8, [11, 13, 15, 14, 12, 13, 11]]
 ];
 
+let productoSeleccionado = null;
+
 function calcularPromedioPedidos() {
     const cuerpoTablaZonas = document.querySelector("#tablaZonas tbody");
     cuerpoTablaZonas.innerHTML = "";
@@ -99,14 +101,11 @@ function eliminarProducto(id) {
 }
 
 function actualizarStock(id) {
-    const nuevoStock = prompt("Ingrese la nueva cantidad en stock:");
-    if (nuevoStock !== null && !isNaN(nuevoStock)) {
-        const producto = productos.find(p => p.id === id);
-        if (producto) {
-            producto.stock = parseInt(nuevoStock);
-            mostrarProductos();
-        }
-    }
+    productoSeleccionado = id;
+    const modal = document.getElementById("modalStock");
+    const input = document.getElementById("nuevoStockInput");
+    input.value = "";
+    modal.style.display = "block";
 }
 
 function filtrarProductosPorStock() {
@@ -159,6 +158,7 @@ function compararPorClave(arr, clave) {
 function inicializarAplicacion() {
     mostrarProductos();
 
+    // Event listeners existentes
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);
     document.getElementById("agregarProducto").addEventListener("click", agregarProducto);
     document.getElementById("filtrarProductos").addEventListener("click", filtrarProductosPorStock);
@@ -167,6 +167,35 @@ function inicializarAplicacion() {
     document.getElementById("restablecerTarifas").addEventListener("click", () => mostrarZonasFiltradas());
     mostrarZonasFiltradas();
 
+    // Event listeners para el modal de stock
+    document.getElementById("confirmarStock").addEventListener("click", () => {
+        const nuevoStock = parseInt(document.getElementById("nuevoStockInput").value);
+        if (isNaN(nuevoStock)) {
+            alert("Por favor ingrese una cantidad válida");
+            return;
+        }
+
+        const producto = productos.find(p => p.id === productoSeleccionado);
+        if (producto) {
+            producto.stock = nuevoStock;
+            mostrarProductos();
+            document.getElementById("modalStock").style.display = "none";
+        }
+    });
+
+    document.getElementById("cancelarStock").addEventListener("click", () => {
+        document.getElementById("modalStock").style.display = "none";
+    });
+
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener("click", (event) => {
+        const modal = document.getElementById("modalStock");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Event listener para búsqueda de elementos
     document.getElementById("buscarElemento").addEventListener("click", () => {
         const id = parseInt(document.getElementById("entradaColeccion").value);
         if (isNaN(id)) {
