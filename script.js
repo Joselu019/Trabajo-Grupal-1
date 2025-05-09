@@ -1,4 +1,7 @@
 // Parte 1 - Gestión de zonas y tarifas
+
+// Datos de ejemplo para las zonas y tarifas
+
 const datosZonas = [
     ["Norte", 5.0, [12, 15, 14, 13, 16, 14, 17]],
     ["Este", 4.5, [9, 8, 12, 10, 11, 10, 9]],
@@ -7,15 +10,19 @@ const datosZonas = [
 
 let productoSeleccionado = null;
 
+// Parte 2 - Funciones para calcular promedios y mostrar datos
 function calcularPromedioPedidos() {
+    // Calcular el promedio de pedidos por zona
     const cuerpoTablaZonas = document.querySelector("#tablaZonas tbody");
     cuerpoTablaZonas.innerHTML = "";
 
     let zonaMasActiva = "";
     let promedioMasAlto = 0;
 
+    // Recorrer los datos de zonas y calcular el promedio
     datosZonas.forEach(zona => {
         const [nombre, tarifa, pedidos] = zona;
+        // Calcular el promedio de pedidos
         const promedio = _.round(_.sum(pedidos) / pedidos.length, 2);
 
         if (promedio > promedioMasAlto) {
@@ -23,6 +30,7 @@ function calcularPromedioPedidos() {
             zonaMasActiva = nombre;
         }
 
+        // Crear una fila en la tabla para mostrar los datos
         const fila = document.createElement("tr");
         fila.className = "fila-tabla";
         fila.innerHTML = `
@@ -31,6 +39,7 @@ function calcularPromedioPedidos() {
             <td class="celda-dato">${pedidos.join(", ")}</td>
             <td class="celda-dato">${promedio}</td>
         `;
+        // Añadir la fila a la tabla
         cuerpoTablaZonas.appendChild(fila);
     });
 
@@ -39,23 +48,28 @@ function calcularPromedioPedidos() {
 
 // Parte 3 - Gestión de productos
 let productos = [
+    // Ejemplo de productos
     { id: 1, nombre: "Portátil", precio: 1200, stock: 8 },
     { id: 2, nombre: "Teléfono", precio: 600, stock: 15 },
     { id: 3, nombre: "Tablet", precio: 400, stock: 10 },
     { id: 4, nombre: "Monitor", precio: 300, stock: 5 }
 ];
 
+// Función para reasignar IDs a los productos después de eliminar uno
 function reasignarIds() {
     productos.forEach((producto, index) => {
         producto.id = index + 1;
     });
+    // Sincronizar con el administrador de productos
     administradorProductos.sincronizarCon(productos);
 }
 
+// Función para mostrar los productos en la tabla
 function mostrarProductos(productosAMostrar = productos) {
     const cuerpoTablaProductos = document.querySelector("#tablaProductos tbody");
     cuerpoTablaProductos.innerHTML = "";
 
+    // Ordenar productos por ID
     productosAMostrar.forEach(producto => {
         const fila = document.createElement("tr");
         fila.className = "fila-tabla";
@@ -73,16 +87,18 @@ function mostrarProductos(productosAMostrar = productos) {
     });
 }
 
+// Función para agregar un nuevo producto
 function agregarProducto() {
     const nombre = document.getElementById("nombreProducto").value;
     const precio = parseFloat(document.getElementById("precioProducto").value);
     const stock = parseInt(document.getElementById("stockProducto").value);
 
+    // Validar campos
     if (!nombre || isNaN(precio) || isNaN(stock)) {
         alert("Por favor complete todos los campos con datos válidos");
         return;
     }
-
+// Validar que el precio y stock sean mayores a 0
     const nuevoProducto = { id: 0, nombre, precio, stock }; // ID temporal
     productos.push(nuevoProducto);
     reasignarIds();
@@ -95,21 +111,25 @@ function agregarProducto() {
 }
 
 function eliminarProducto(id) {
+    // Eliminar el producto por ID
     productos = productos.filter(producto => producto.id !== id);
     reasignarIds();
     mostrarProductos();
 }
 
+// Función para actualizar el stock de un producto
 function actualizarStock(id) {
-    productoSeleccionado = id;
+    productoSeleccionado = id; 
     const modal = document.getElementById("modalStock");
     const input = document.getElementById("nuevoStockInput");
     input.value = "";
     modal.style.display = "block";
 }
 
+// 
 function filtrarProductosPorStock() {
-    const umbral = parseInt(document.getElementById("filtroStock").value);
+    const umbral = parseInt(document.getElementById("filtroStock").value); 
+    // Validar que el umbral sea un número
     if (isNaN(umbral)) {
         alert("Por favor ingrese un número válido");
         return;
@@ -122,36 +142,36 @@ function filtrarProductosPorStock() {
 // Parte 4 - Clase genérica
 class AdministradorColecciones {
     constructor() {
-        this.elementos = [];
+        this.elementos = []; // Inicializa la colección vacía
     }
 
     agregar(elemento) {
-        this.elementos.push(elemento);
+        this.elementos.push(elemento); // Agrega un nuevo elemento a la colección
     }
 
     eliminarPorId(id) {
-        this.elementos = this.elementos.filter(elemento => elemento.id !== id);
+        this.elementos = this.elementos.filter(elemento => elemento.id !== id); // Elimina un elemento por ID
     }
 
     buscarPorId(id) {
-        return this.elementos.find(elemento => elemento.id === id);
+        return this.elementos.find(elemento => elemento.id === id); // Busca un elemento por ID
     }
 
     listarTodos() {
-        return [...this.elementos];
+        return [...this.elementos]; // Devuelve una copia de la colección
     }
 
     sincronizarCon(lista) {
-        this.elementos = [...lista];
+        this.elementos = [...lista]; // Sincroniza la colección con una lista externa
     }
 }
 
-const administradorProductos = new AdministradorColecciones();
+const administradorProductos = new AdministradorColecciones(); // Crea una instancia del administrador de productos
 administradorProductos.sincronizarCon(productos);
 
 // Parte 5 - Método genérico
 function compararPorClave(arr, clave) {
-    return _.orderBy(arr, [clave], ['asc']);
+    return _.orderBy(arr, [clave], ['asc']); // Ordena el array por la clave especificada
 }
 
 // Inicialización de la aplicación
@@ -175,7 +195,8 @@ function inicializarAplicacion() {
             return;
         }
 
-        const producto = productos.find(p => p.id === productoSeleccionado);
+        const producto = productos.find(p => p.id === productoSeleccionado); // Buscar el producto seleccionado
+        // Actualizar el stock del producto
         if (producto) {
             producto.stock = nuevoStock;
             mostrarProductos();
@@ -206,6 +227,7 @@ function inicializarAplicacion() {
         const elemento = administradorProductos.buscarPorId(id);
         const resultadoDiv = document.getElementById("resultadoBusqueda");
 
+        // Mostrar el resultado de la búsqueda
         if (elemento) {
             resultadoDiv.innerHTML = `
                 <p><strong>Elemento encontrado:</strong></p>
@@ -220,14 +242,37 @@ function inicializarAplicacion() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", inicializarAplicacion);
+document.addEventListener("DOMContentLoaded", inicializarAplicacion); // Espera a que el DOM esté completamente cargado
 
+document.getElementById("agregarZona").addEventListener("click", () => {
+    const nombreZona = document.getElementById("nombreZona").value.trim(); // Obtener el nombre de la zona
+    const tarifaZona = parseFloat(document.getElementById("tarifaZona").value);
 
+    // Validar campos
+    if (!nombreZona || isNaN(tarifaZona) || tarifaZona <= 0) {
+        alert("Por favor, ingrese un nombre válido y una tarifa mayor a 0.");
+        return;
+    }
+
+    // Añadir la nueva zona al array de datos
+    datosZonas.push([nombreZona, tarifaZona, [7,1,4,3,12,5,16]]);
+
+    // Actualizar la tabla con las zonas
+    mostrarZonasFiltradas();
+
+    // Limpiar los campos del formulario
+    document.getElementById("nombreZona").value = "";
+    document.getElementById("tarifaZona").value = "";
+
+});
+
+// Función para mostrar las zonas filtradas
 function mostrarZonasFiltradas(zonas = datosZonas) {
     const cuerpoTablaZonas = document.querySelector("#tablaZonas tbody");
     cuerpoTablaZonas.innerHTML = "";
 
-    zonas.forEach(zona => {
+    // Ordenar zonas por tarifa
+    zonas.forEach(zona => { // Recorrer los datos de zonas
         const [nombre, tarifa, pedidos] = zona;
         const promedio = _.round(_.sum(pedidos) / pedidos.length, 2);
 

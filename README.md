@@ -93,12 +93,6 @@ Resolución mínima recomendada: 1024x768px
 
 Próximas Mejoras
 Implementación de gráficos estadísticos
-
 Exportación de reportes en PDF
-
 Sistema de autenticación de usuarios
-
 Versión móvil nativa
-
-Licencia
-Este proyecto se distribuye bajo licencia MIT. Para más detalles, consultar el archivo LICENSE.md.
