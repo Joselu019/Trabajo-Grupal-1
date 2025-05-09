@@ -190,8 +190,9 @@ class AdministradorColecciones {
 const administradorProductos = new AdministradorColecciones(); // Crea una instancia del administrador de productos
 administradorProductos.sincronizarCon(productos);
 
-function compararPorClave(arr, clave, orden = 'asc') {
-    return _.orderBy(arr, [clave], [orden]);
+// Función para calcular el promedio de un array
+function compararPorClave(arr, clave, orden = 'asc') { // Ordena un array de objetos por una clave específica
+    return _.orderBy(arr, [clave], [orden]); // Usa lodash para ordenar el array
 }
 // Inicialización de la aplicación
 function inicializarAplicacion() {
