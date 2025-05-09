@@ -37,6 +37,27 @@ function calcularPromedioPedidos() {
     alert(`La zona más activa es ${zonaMasActiva} con un promedio de ${promedioMasAlto} pedidos por día`);
 }
 
+function mostrarTarifasZonas() {
+    const cuerpoTablaTarifas = document.querySelector("#tablaTarifasZonas tbody");
+    cuerpoTablaTarifas.innerHTML = "";
+
+    datosZonas.forEach(zona => {
+        const [nombre, tarifa, pedidos] = zona;
+        const tarifaBase = tarifa;
+        const tarifaUrgente = tarifa * 1.3; // 30% más cara para envíos urgentes
+        const tarifaVolumen = tarifa * 0.85; // 15% descuento para más de 5 productos
+
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td class="celda-dato">${nombre}</td>
+            <td class="celda-dato">${tarifaBase.toFixed(2)}€</td>
+            <td class="celda-dato">${tarifaUrgente.toFixed(2)}€</td>
+            <td class="celda-dato">${tarifaVolumen.toFixed(2)}€</td>
+        `;
+        cuerpoTablaTarifas.appendChild(fila);
+    });
+}
+
 // Parte 3 - Gestión de productos
 let productos = [
     { id: 1, nombre: "Portátil", precio: 1200, stock: 8 },
@@ -149,14 +170,13 @@ class AdministradorColecciones {
 const administradorProductos = new AdministradorColecciones();
 administradorProductos.sincronizarCon(productos);
 
-// Parte 5 - Método genérico
-function compararPorClave(arr, clave) {
-    return _.orderBy(arr, [clave], ['asc']);
+function compararPorClave(arr, clave, orden = 'asc') {
+    return _.orderBy(arr, [clave], [orden]);
 }
-
 // Inicialización de la aplicación
 function inicializarAplicacion() {
     mostrarProductos();
+    mostrarTarifasZonas();
 
     // Event listeners existentes
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);

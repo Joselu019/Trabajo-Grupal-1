@@ -213,3 +213,15 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.subseccion-tarifas {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.subtitulo-seccion {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #333;
+}
