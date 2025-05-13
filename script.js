@@ -501,3 +501,58 @@ function mostrarPedidos() {
         tbody.appendChild(tr);
     });
 }
+
+// CREACION DEL DASHBOARD
+const orders = [
+    { client: "John Doe", date: "2025-05-12", status: "Pending" },
+    { client: "Jane Smith", date: "2025-05-11", status: "Shipped" },
+    { client: "Alice Brown", date: "2025-05-10", status: "Pending" },
+];
+
+const products = [
+    { name: "Laptop", quantity: 120 },
+    { name: "Phone", quantity: 95 },
+    { name: "Tablet", quantity: 80 },
+];
+
+const revenueByZone = [
+    { zone: "North", revenue: 5000 },
+    { zone: "East", revenue: 3000 },
+    { zone: "South", revenue: 4000 },
+];
+
+
+document.getElementById("totalOrders").textContent = orders.length;
+document.getElementById("pendingOrders").textContent = orders.filter(o => o.status === "Pending").length;
+document.getElementById("shippedOrders").textContent = orders.filter(o => o.status === "Shipped").length;
+
+// Pedidos recientes
+const recentOrdersTable = document.getElementById("recentOrdersTable");
+orders.forEach(order => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${order.client}</td>
+        <td>${order.date}</td>
+        <td>${order.status}</td>
+    `;
+    recentOrdersTable.appendChild(row);
+});
+
+// Productos más vendidos
+const topProductsList = document.getElementById("topProductsList");
+products.forEach(product => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${product.name}: ${product.quantity} units`;
+    topProductsList.appendChild(listItem);
+});
+
+// Zonas con más ingresos
+const revenueByZoneTable = document.getElementById("revenueByZoneTable");
+revenueByZone.forEach(zone => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${zone.zone}</td>
+        <td>${zone.revenue.toFixed(2)}</td>
+    `;
+    revenueByZoneTable.appendChild(row);
+});
