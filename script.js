@@ -326,9 +326,9 @@ function buscarPorTarifa() {
 
 // CREACION DEL DASHBOARD
 const orders = [
-    { client: "John Doe", date: "2025-05-12", status: "Pending" },
-    { client: "Jane Smith", date: "2025-05-11", status: "Shipped" },
-    { client: "Alice Brown", date: "2025-05-10", status: "Pending" },
+    { client: "John Doe", date: "2025-05-12", status: "Pendiente" },
+    { client: "Jane Smith", date: "2025-05-11", status: "Finalizado" },
+    { client: "Alice Brown", date: "2025-05-10", status: "Pendiente" },
 ];
 
 const products = [
