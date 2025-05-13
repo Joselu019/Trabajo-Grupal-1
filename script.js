@@ -47,25 +47,20 @@ function calcularPromedioPedidos() {
 }
 
 function mostrarTarifasZonas() {
-    const cuerpoTablaTarifas = document.querySelector("#tablaTarifasZonas tbody");
+    const cuerpoTablaTarifas = document.querySelector("#tablaZonas tbody");
     cuerpoTablaTarifas.innerHTML = "";
-
     datosZonas.forEach(zona => {
         const [nombre, tarifa, pedidos] = zona;
-        const tarifaBase = tarifa;
-        const tarifaUrgente = tarifa * 1.3; // 30% más cara para envíos urgentes
-        const tarifaVolumen = tarifa * 0.85; // 15% descuento para más de 5 productos
-
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td class="celda-dato">${nombre}</td>
-            <td class="celda-dato">${tarifaBase.toFixed(2)}€</td>
-            <td class="celda-dato">${tarifaUrgente.toFixed(2)}€</td>
-            <td class="celda-dato">${tarifaVolumen.toFixed(2)}€</td>
+            <td class="celda-dato">${tarifa.toFixed(2)}€</td>
+            <td class="celda-dato">${pedidos.join(", ")}</td>
         `;
         cuerpoTablaTarifas.appendChild(fila);
     });
 }
+
 
 // Parte 3 - Gestión de productos
 let productos = [
@@ -275,8 +270,11 @@ document.getElementById("agregarZona").addEventListener("click", () => {
         return;
     }
 
+    // Generar un array de 7 números aleatorios entre 0 y 20
+    const pedidosAleatorios = Array.from({ length: 7 }, () => Math.floor(Math.random() * 21));
+
     // Añadir la nueva zona al array de datos
-    datosZonas.push([nombreZona, tarifaZona, [7,1,4,3,12,5,16]]);
+    datosZonas.push([nombreZona, tarifaZona, pedidosAleatorios]);
 
     // Actualizar la tabla con las zonas
     mostrarZonasFiltradas();
@@ -284,7 +282,6 @@ document.getElementById("agregarZona").addEventListener("click", () => {
     // Limpiar los campos del formulario
     document.getElementById("nombreZona").value = "";
     document.getElementById("tarifaZona").value = "";
-
 });
 
 // Función para mostrar las zonas filtradas
