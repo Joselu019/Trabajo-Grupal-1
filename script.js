@@ -1,3 +1,5 @@
+let productosSeleccionados = [];
+let pedidos = [];
 // Parte 1 - Gestión de zonas y tarifas
 
 // Datos de ejemplo para las zonas y tarifas
@@ -119,6 +121,7 @@ function agregarProducto() {
     productos.push(nuevoProducto);
     reasignarIds();
     mostrarProductos();
+    actualizarSelectProductos(productos);
 
     // Limpiar campos
     document.getElementById("nombreProducto").value = "";
@@ -131,6 +134,7 @@ function eliminarProducto(id) {
     productos = productos.filter(producto => producto.id !== id);
     reasignarIds();
     mostrarProductos();
+    actualizarSelectProductos(productos);
 }
 
 // Función para actualizar el stock de un producto
@@ -193,6 +197,7 @@ function compararPorClave(arr, clave, orden = 'asc') { // Ordena un array de obj
 function inicializarAplicacion() {
     mostrarProductos();
     mostrarTarifasZonas();
+    actualizarSelectProductos(productos); // Actualiza el select de productos al cargar la página
 
     // Event listeners existentes
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);
@@ -201,6 +206,8 @@ function inicializarAplicacion() {
     document.getElementById("restablecerFiltro").addEventListener("click", () => mostrarProductos());
     document.getElementById("buscarPorTarifa").addEventListener("click", buscarPorTarifa);
     document.getElementById("restablecerTarifas").addEventListener("click", () => mostrarZonasFiltradas());
+    document.getElementById('agregarProductoPedido').addEventListener('click', agregarProductoAlPedido);
+    document.getElementById('crearPedido').addEventListener('click', crearPedido);
     mostrarZonasFiltradas();
 
     // Event listeners para el modal de stock
@@ -273,7 +280,7 @@ document.getElementById("agregarZona").addEventListener("click", () => {
     // Generar un array de 7 números aleatorios entre 0 y 20
     const pedidosAleatorios = Array.from({ length: 7 }, () => Math.floor(Math.random() * 21));
 
-    // Añadir la nueva zona al array de datos
+    // Añadir la nueva zona al array de datosHlo
     datosZonas.push([nombreZona, tarifaZona, pedidosAleatorios]);
 
     // Actualizar la tabla con las zonas
@@ -322,6 +329,177 @@ function buscarPorTarifa() {
     }
 
     mostrarZonasFiltradas(zonasFiltradas);
+}
+
+function actualizarSelectProductos(productos) {
+    const selectProductos = document.getElementById('producto');
+    // Limpiar opciones existentes
+    selectProductos.innerHTML = '<option value="">Seleccione un producto</option>';
+    
+    // Agregar una opción por cada producto
+    productos.forEach(producto => {
+        const option = document.createElement('option');
+        option.value = producto.id;
+        option.textContent = producto.nombre;
+        selectProductos.appendChild(option);
+    });
+}
+
+function agregarProductoAlPedido() {
+    const productoId = document.getElementById('producto').value;
+    const cantidad = parseInt(document.getElementById('cantidadPedido').value);
+    
+    if (!productoId || !cantidad || cantidad < 1) {
+        alert('Por favor seleccione un producto y una cantidad válida');
+        return;
+    }
+
+    const producto = productos.find(p => p.id === parseInt(productoId));
+    if (!producto) return;
+
+    if (cantidad > producto.stock) {
+        alert(`Solo hay ${producto.stock} unidades disponibles`);
+        return;
+    }
+
+    const productoExistente = productosSeleccionados.find(p => p.id === producto.id);
+    if (productoExistente) {
+        productoExistente.cantidad += cantidad;
+    } else {
+        productosSeleccionados.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: cantidad
+        });
+    }
+
+    actualizarTablaProductosSeleccionados();
+    // Limpiar campos
+    document.getElementById('cantidadPedido').value = '';
+    document.getElementById('producto').value = '';
+}
+
+function actualizarTablaProductosSeleccionados() {
+    const tbody = document.querySelector('#tablaProductosSeleccionados tbody');
+    const totalElement = document.getElementById('totalPedido');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    productosSeleccionados.forEach((producto, index) => {
+        const subtotal = producto.precio * producto.cantidad;
+        total += subtotal;
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td class="celda-dato">${producto.nombre}</td>
+            <td class="celda-dato">${producto.cantidad}</td>
+            <td class="celda-dato">${producto.precio}€</td>
+            <td class="celda-dato">${subtotal}€</td>
+            <td class="celda-dato">
+                <button onclick="eliminarProductoSeleccionado(${index})" class="boton">Eliminar</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    totalElement.textContent = total + '€';
+}
+
+function eliminarProductoSeleccionado(index) {
+    productosSeleccionados.splice(index, 1);
+    actualizarTablaProductosSeleccionados();
+}
+
+function crearPedido() {
+    // Obtener los datos del pedido
+    const nombreCliente = document.getElementById('nombreCliente').value.trim();
+    const emailCliente = document.getElementById('emailCliente').value.trim();
+    const zona = document.getElementById('zonaPedido').value;
+
+    // Validar que todos los campos estén completos
+    if (!nombreCliente || !emailCliente || !zona) {
+        alert('Por favor complete todos los campos del pedido (nombre, email y zona)');
+        return;
+    }
+
+    // Validar que haya productos seleccionados
+    if (productosSeleccionados.length === 0) {
+        alert('Por favor agregue al menos un producto al pedido');
+        return;
+    }
+
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailCliente)) {
+        alert('Por favor ingrese un email válido');
+        return;
+    }
+
+    // Calcular el total del pedido
+    const total = productosSeleccionados.reduce((sum, producto) => 
+        sum + (producto.precio * producto.cantidad), 0);
+
+    // Actualizar el stock de los productos
+    productosSeleccionados.forEach(productoSeleccionado => {
+        const producto = productos.find(p => p.id === productoSeleccionado.id);
+        if (producto) {
+            producto.stock -= productoSeleccionado.cantidad;
+        }
+    });
+
+    // Crear objeto con los datos del pedido
+    const pedido = {
+        id: pedidos.length + 1, // ID secuencial empezando desde 1
+        nombreCliente: nombreCliente,
+        fecha: new Date().toLocaleString(),
+        total: total
+    };
+
+    // Agregar el pedido al array de pedidos
+    pedidos.push(pedido);
+
+    // Actualizar la tabla de pedidos
+    mostrarPedidos();
+    mostrarProductos();
+
+    // Actualizar el stock y mostrar productos
+    productosSeleccionados.forEach(productoSeleccionado => {
+        const producto = productos.find(p => p.id === productoSeleccionado.id);
+        if (producto) {
+            producto.stock -= productoSeleccionado.cantidad;
+        }
+    });
+    mostrarProductos();
+    
+    // Limpiar el formulario
+    document.getElementById('nombreCliente').value = '';
+    document.getElementById('emailCliente').value = '';
+    document.getElementById('zonaPedido').value = '';
+    document.getElementById('cantidadPedido').value = '';
+    document.getElementById('producto').value = '';
+    productosSeleccionados = [];
+    actualizarTablaProductosSeleccionados();
+
+    // Mostrar mensaje de éxito
+    alert(`Pedido creado con éxito!\nTotal: ${total}€`);
+}
+
+function mostrarPedidos() {
+    const tbody = document.querySelector('#tablaPedidos tbody');
+    tbody.innerHTML = '';
+
+    pedidos.forEach(pedido => {
+        const tr = document.createElement('tr');
+        tr.className = "fila-tabla";
+        tr.innerHTML = `
+            <td class="celda-dato">${pedido.id}</td>
+            <td class="celda-dato">${pedido.nombreCliente}</td>
+            <td class="celda-dato">${pedido.fecha}</td>
+            <td class="celda-dato">${pedido.total}€</td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
 // CREACION DEL DASHBOARD

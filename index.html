@@ -107,9 +107,63 @@
                 <div class="grupo-formulario">
                     <h3>Crear Nuevo Pedido</h3>
                     <input type="text" id="nombreCliente" class="campo-entrada" placeholder="Nombre del cliente">
-                    <input type="text" id="zonaPedido" class="campo-entrada" placeholder="Zona del pedido">
-                    <input type="number" id="cantidadPedido" class="campo-entrada" placeholder="Cantidad de productos">
+                    <input type="text" id="emailCliente" class="campo-entrada" placeholder="Email">
+                    <select id="zonaPedido" class="campo-entrada">
+                        <option value="">Seleccione una zona</option>
+                        <option value="norte">Norte</option>
+                        <option value="sur">Sur</option>
+                        <option value="este">Este</option>
+                        <option value="oeste">Oeste</option>
+                    </select>
+                    <div class="producto-cantidad">
+                        <select id="producto" class="campo-entrada">
+                            <option value="">Seleccione un producto</option>
+                        </select>
+                        <input type="number" id="cantidadPedido" class="campo-entrada" placeholder="Cantidad" min="1">
+                        <button id="agregarProductoPedido" class="boton">Agregar Producto</button>
+                    </div>
+                    
+                    <table class="tabla" id="tablaProductosSeleccionados">
+                        <thead>
+                            <tr>
+                                <th class="celda-cabecera">Producto</th>
+                                <th class="celda-cabecera">Cantidad</th>
+                                <th class="celda-cabecera">Precio Unitario</th>
+                                <th class="celda-cabecera">Subtotal</th>
+                                <th class="celda-cabecera">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se agregarán los productos seleccionados -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="celda-dato text-right"><strong>Total:</strong></td>
+                                <td class="celda-dato" id="totalPedido">0€</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
                     <button id="crearPedido" class="boton">Crear Pedido</button>
+                </div>
+                    <table class="tabla" id="tablaPedidos">
+                        <thead>
+                            <tr>
+                                <th class="celda-cabecera">ID</th>
+                                <th class="celda-cabecera">Cliente</th>
+                                <th class="celda-cabecera">Fecha</th>
+                                <th class="celda-cabecera">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se mostrarán los pedidos -->
+                        </tbody>
+                    </table>
+                    <tbody>
+                        <!-- Datos de zonas se llenarán dinámicamente -->
+                    </tbody>
+                </table>
                 </div>
             </div>
 
@@ -153,7 +207,7 @@
                 </div>
             </div>
 
-        </div>
+        </>
     </div>
 
     <div id="modalStock" class="modal">
