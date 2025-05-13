@@ -13,7 +13,64 @@
             <h1>Gestión de Pedidos Tecnológicos</h1>
         </div>
         <div class="grid-container">
-            <div class="item1">Primera fila (ocupa 2 columnas)</div>
+            <div class="item1 dashboard">
+                <div class="dashboard-section order-statistics seccion">
+                    <h3>Estadísticas de pedidos</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <p>Pedidos totales</p>
+                            <h4 id="totalOrders">0</h4>
+                        </div>
+                        <div class="stat">
+                            <p>Pedidos pendientes</p>
+                            <h4 id="pendingOrders">0</h4>
+                        </div>
+                        <div class="stat">
+                            <p>Pedidos finalizados</p>
+                            <h4 id="shippedOrders">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section recent-orders seccion">
+                    <h3>Pedidos recientes</h3>
+                    <table class="dashboard-table ">
+                        <thead>
+                            <tr>
+                                <th>Clientes</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable">
+                            <!-- Los pedidos se añaden dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="dashboard-section top-products seccion">
+                    <h3>Productos más vendidos</h3>
+                    <ul id="topProductsList">
+                        <!-- Los pedidos se añaden dinamicamente -->
+                    </ul>
+                </div>
+
+                <div class="dashboard-section revenue-by-zone seccion">
+                    <h3>Ingresos por zona</h3>
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Zona</th>
+                                <th>Ingresos (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="revenueByZoneTable">
+                            <!-- Los ingresos se añaden dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
 
             <div class="item2 seccion">
                 <h2 class="titulo-seccion">Zonas y Tarifas</h2>
@@ -54,7 +111,7 @@
                     <button id="crearPedido" class="boton">Crear Pedido</button>
                 </div>
             </div>
-            
+
             <div class="item4 seccion">
                 <h2 class="titulo-seccion">Lista de Productos</h2>
                 <div class="grupo-formulario">
