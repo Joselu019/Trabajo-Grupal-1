@@ -246,3 +246,23 @@ body {
     margin-bottom: 15px;
     color: #333;
 }
+
+select.campo-entrada {
+    height: 40px;
+    padding: 5px 10px;
+    appearance: auto;
+}
+
+.producto-cantidad {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+#tablaProductosSeleccionados {
+    margin-bottom: 20px;
+}
