@@ -12,9 +12,10 @@
         <div class="cabecera">
             <h1>Gestión de Pedidos Tecnológicos</h1>
         </div>
+        <div class="grid-container">
+            <div class="item1">Primera fila (ocupa 2 columnas)</div>
 
-        <div class="contenido-principal">
-            <section class="seccion">
+            <div class="item2 seccion">
                 <h2 class="titulo-seccion">Zonas y Tarifas</h2>
                 <div class="grupo-formulario">
                     <h3>Añadir Nueva Zona</h3>
@@ -41,27 +42,20 @@
                         <!-- Datos de zonas se llenarán dinámicamente -->
                     </tbody>
                 </table>
+            </div>
 
-                <!-- <div class="subseccion-tarifas">
-                    <h3 class="subtitulo-seccion">Detalles de Tarifas por Zona</h3>
-                    <table class="tabla" id="tablaTarifasZonas">
-                        <thead>
-                            <tr>
-                                <th class="celda-cabecera">Zona</th>
-                                <th class="celda-cabecera">Tarifa Base</th>
-                                <th class="celda-cabecera">Tarifa Urgente</th>
-                                <th class="celda-cabecera">Tarifa Volumen</th>
-                            </tr>
-                        </thead>
-                        <tbody> -->
-                            <!-- Datos de tarifas se llenarán dinámicamente -->
-                        <!-- </tbody>
-                    </table>
-                </div> -->
-
-            </section>
-
-            <section class="seccion">
+            <div class="item3 seccion">
+                <h2 class="titulo-seccion">Gestión de Pedidos</h2>
+                <div class="grupo-formulario">
+                    <h3>Crear Nuevo Pedido</h3>
+                    <input type="text" id="nombreCliente" class="campo-entrada" placeholder="Nombre del cliente">
+                    <input type="text" id="zonaPedido" class="campo-entrada" placeholder="Zona del pedido">
+                    <input type="number" id="cantidadPedido" class="campo-entrada" placeholder="Cantidad de productos">
+                    <button id="crearPedido" class="boton">Crear Pedido</button>
+                </div>
+            </div>
+            
+            <div class="item4 seccion">
                 <h2 class="titulo-seccion">Lista de Productos</h2>
                 <div class="grupo-formulario">
                     <input type="text" id="nombreProducto" class="campo-entrada" placeholder="Nombre del producto">
@@ -88,9 +82,9 @@
                         <!-- Datos de productos se llenarán dinámicamente -->
                     </tbody>
                 </table>
-            </section>
+            </div>
 
-            <section class="seccion">
+            <div class="item5 seccion">
                 <h2 class="titulo-seccion">Administrador de Colecciones</h2>
                 <div class="grupo-formulario">
                     <input type="text" id="entradaColeccion" class="campo-entrada" placeholder="Ingrese ID...">
@@ -99,7 +93,8 @@
                 <div id="resultadoBusqueda" class="resultado-busqueda">
                     <!-- Resultados de búsqueda aparecerán aquí -->
                 </div>
-            </section>
+            </div>
+
         </div>
     </div>
 

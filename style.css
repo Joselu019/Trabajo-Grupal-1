@@ -7,6 +7,27 @@ body {
     color: #5D4037; /* Marrón chocolate para el texto principal */
 }
 
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+    grid-template-rows: auto auto auto; /* Tres filas automáticas */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+.item1 {
+    grid-column: span 2; /* Ocupa las dos columnas */
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+
+.item2, .item3, .item4, .item5 {
+    background-color: #d0d0d0;
+    padding: 10px;
+    text-align: center;
+}
+
 .contenedor {
     max-width: 1200px;
     margin: 0 auto;
