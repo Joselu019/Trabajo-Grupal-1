@@ -1,5 +1,6 @@
 let productosSeleccionados = [];
 let pedidos = [];
+const productosMasVendidos={}
 // Parte 1 - Gestión de zonas y tarifas
 
 // Datos de ejemplo para las zonas y tarifas
@@ -446,6 +447,13 @@ function crearPedido() {
         if (producto) {
             producto.stock -= productoSeleccionado.cantidad;
         }
+
+        // Actualizar el control de productos más pedidos
+        if (productosMasVendidos[productoSeleccionado.nombre]) {
+            productosMasVendidos[productoSeleccionado.nombre] += productoSeleccionado.cantidad;
+        } else {
+            productosMasVendidos[productoSeleccionado.nombre] = productoSeleccionado.cantidad;
+        }
     });
 
     // Crear objeto con los datos del pedido
@@ -463,6 +471,7 @@ function crearPedido() {
     // Actualizar la tabla de pedidos
     mostrarPedidos();
     mostrarProductos();
+    mostrarProductosMasPedidos(); // Actualizar la visualización de productos más pedidos
 
     // Limpiar el formulario
     document.getElementById('nombreCliente').value = '';
@@ -496,57 +505,18 @@ function mostrarPedidos() {
     });
 }
 
-// CREACION DEL DASHBOARD
-const orders = [
-    { client: "John Doe", date: "2025-05-12", status: "Pendiente" },
-    { client: "Jane Smith", date: "2025-05-11", status: "Finalizado" },
-    { client: "Alice Brown", date: "2025-05-10", status: "Pendiente" },
-];
+function mostrarProductosMasPedidos() {
+    const topProductsList = document.getElementById('topProductsList');
+    topProductsList.innerHTML = ''; // Limpiar la lista
 
-const products = [
-    { name: "Laptop", quantity: 120 },
-    { name: "Phone", quantity: 95 },
-    { name: "Tablet", quantity: 80 },
-];
+    // Convertir el objeto en un array y ordenarlo por cantidad
+    const productosOrdenados = Object.entries(productosMasVendidos)
+        .sort((a, b) => b[1] - a[1]); // Ordenar de mayor a menor
 
-const revenueByZone = [
-    { zone: "North", revenue: 5000 },
-    { zone: "East", revenue: 3000 },
-    { zone: "South", revenue: 4000 },
-];
-
-
-document.getElementById("totalOrders").textContent = orders.length;
-document.getElementById("pendingOrders").textContent = orders.filter(o => o.status === "Pending").length;
-document.getElementById("shippedOrders").textContent = orders.filter(o => o.status === "Shipped").length;
-
-// Pedidos recientes
-const recentOrdersTable = document.getElementById("recentOrdersTable");
-orders.forEach(order => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${order.client}</td>
-        <td>${order.date}</td>
-        <td>${order.status}</td>
-    `;
-    recentOrdersTable.appendChild(row);
-});
-
-// Productos más vendidos
-const topProductsList = document.getElementById("topProductsList");
-products.forEach(product => {
-    const listItem = document.createElement("li");
-    listItem.textContent = `${product.name}: ${product.quantity} units`;
-    topProductsList.appendChild(listItem);
-});
-
-// Zonas con más ingresos
-const revenueByZoneTable = document.getElementById("revenueByZoneTable");
-revenueByZone.forEach(zone => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${zone.zone}</td>
-        <td>${zone.revenue.toFixed(2)}</td>
-    `;
-    revenueByZoneTable.appendChild(row);
-});
+    // Mostrar los productos más pedidos
+    productosOrdenados.forEach(([nombre, cantidad]) => {
+        const li = document.createElement('li');
+        li.textContent = `${nombre}: ${cantidad} unidades`;
+        topProductsList.appendChild(li);
+    });
+}
