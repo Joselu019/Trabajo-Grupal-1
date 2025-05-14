@@ -35,7 +35,7 @@
 
                 <div class="dashboard-section recent-orders seccion">
                     <h3>Pedidos recientes</h3>
-                    <table class="dashboard-table ">
+                    <table class="dashboard-table" id="dashboardTable">
                         <thead>
                             <tr>
                                 <th>Clientes</th>
@@ -43,7 +43,7 @@
                                 <th>Estado</th>
                             </tr>
                         </thead>
-                        <tbody id="recentOrdersTable">
+                        <tbody>
                             <!-- Los pedidos se añaden dinamicamente -->
                         </tbody>
                     </table>
@@ -147,23 +147,6 @@
                     
                     <button id="crearPedido" class="boton">Crear Pedido</button>
                 </div>
-                    <table class="tabla" id="tablaPedidos">
-                        <thead>
-                            <tr>
-                                <th class="celda-cabecera">ID</th>
-                                <th class="celda-cabecera">Cliente</th>
-                                <th class="celda-cabecera">Fecha</th>
-                                <th class="celda-cabecera">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Aquí se mostrarán los pedidos -->
-                        </tbody>
-                    </table>
-                    <tbody>
-                        <!-- Datos de zonas se llenarán dinámicamente -->
-                    </tbody>
-                </table>
                 </div>
             </div>
 
@@ -207,7 +190,7 @@
                 </div>
             </div>
 
-        </>
+        </div>
     </div>
 
     <div id="modalStock" class="modal">

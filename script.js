@@ -430,8 +430,8 @@ function crearPedido() {
     }
 
     // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailCliente)) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular para validar el formato de email
+    if (!emailRegex.test(emailCliente)) { // Validar el formato del email
         alert('Por favor ingrese un email válido');
         return;
     }
@@ -453,7 +453,8 @@ function crearPedido() {
         id: pedidos.length + 1, // ID secuencial empezando desde 1
         nombreCliente: nombreCliente,
         fecha: new Date().toLocaleString(),
-        total: total
+        total: total,
+        estado: "Pendiente" // Estado inicial del pedido
     };
 
     // Agregar el pedido al array de pedidos
@@ -463,15 +464,6 @@ function crearPedido() {
     mostrarPedidos();
     mostrarProductos();
 
-    // Actualizar el stock y mostrar productos
-    productosSeleccionados.forEach(productoSeleccionado => {
-        const producto = productos.find(p => p.id === productoSeleccionado.id);
-        if (producto) {
-            producto.stock -= productoSeleccionado.cantidad;
-        }
-    });
-    mostrarProductos();
-    
     // Limpiar el formulario
     document.getElementById('nombreCliente').value = '';
     document.getElementById('emailCliente').value = '';
@@ -486,17 +478,19 @@ function crearPedido() {
 }
 
 function mostrarPedidos() {
-    const tbody = document.querySelector('#tablaPedidos tbody');
+    const tbody = document.querySelector('#dashboardTable tbody');
     tbody.innerHTML = '';
 
-    pedidos.forEach(pedido => {
+    // Obtener los últimos 3 pedidos
+    const ultimosPedidos = pedidos.slice(-3);
+
+    ultimosPedidos.forEach(pedido => {
         const tr = document.createElement('tr');
         tr.className = "fila-tabla";
         tr.innerHTML = `
-            <td class="celda-dato">${pedido.id}</td>
             <td class="celda-dato">${pedido.nombreCliente}</td>
             <td class="celda-dato">${pedido.fecha}</td>
-            <td class="celda-dato">${pedido.total}€</td>
+            <td class="celda-dato">${pedido.estado}</td>
         `;
         tbody.appendChild(tr);
     });
