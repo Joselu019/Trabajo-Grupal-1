@@ -198,6 +198,7 @@ function inicializarAplicacion() {
     mostrarProductos();
     mostrarTarifasZonas();
     actualizarSelectProductos(productos); // Actualiza el select de productos al cargar la página
+    inicializarIngresosZona();
 
     // Event listeners existentes
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);
@@ -416,6 +417,18 @@ function crearPedido() {
     const nombreCliente = document.getElementById('nombreCliente').value.trim();
     const emailCliente = document.getElementById('emailCliente').value.trim();
     const zona = document.getElementById('zonaPedido').value;
+    
+    // Calcular el total del pedido (solo una vez)
+    const total = productosSeleccionados.reduce((sum, producto) => 
+        sum + (producto.precio * producto.cantidad), 0);
+
+    // Actualizar los ingresos de la zona correspondiente
+    const zonaId = zona.toLowerCase();
+    const elementoIngreso = document.getElementById(`${zonaId}Revenue`);
+    if (elementoIngreso) {
+        const ingresoActual = parseFloat(elementoIngreso.textContent) || 0;
+        elementoIngreso.textContent = (ingresoActual + total).toFixed(2);
+    }
 
     // Validar que todos los campos estén completos
     if (!nombreCliente || !emailCliente || !zona) {
@@ -435,10 +448,6 @@ function crearPedido() {
         alert('Por favor ingrese un email válido');
         return;
     }
-
-    // Calcular el total del pedido
-    const total = productosSeleccionados.reduce((sum, producto) => 
-        sum + (producto.precio * producto.cantidad), 0);
 
     // Actualizar el stock de los productos
     productosSeleccionados.forEach(productoSeleccionado => {
@@ -475,6 +484,17 @@ function crearPedido() {
 
     // Mostrar mensaje de éxito
     alert(`Pedido creado con éxito!\nTotal: ${total}€`);
+}
+
+// Función auxiliar para inicializar los ingresos por zona
+function inicializarIngresosZona() {
+    const zonas = ['norte', 'sur', 'este', 'oeste'];
+    zonas.forEach(zona => {
+        const elemento = document.getElementById(`${zona}Revenue`);
+        if (elemento && elemento.textContent === '0') {
+            elemento.textContent = '0.00';
+        }
+    });
 }
 
 function mostrarPedidos() {
