@@ -200,6 +200,7 @@ function inicializarAplicacion() {
     mostrarTarifasZonas();
     actualizarSelectProductos(productos); // Actualiza el select de productos al cargar la página
     inicializarIngresosZona();
+    actualizarEstadisticasPedidos();
 
     // Event listeners existentes
     document.getElementById("calcularPromedio").addEventListener("click", calcularPromedioPedidos);
@@ -413,6 +414,21 @@ function eliminarProductoSeleccionado(index) {
     actualizarTablaProductosSeleccionados();
 }
 
+function actualizarEstadisticasPedidos() {
+    const totalPedidos = document.getElementById('totalOrders');
+    const pedidosPendientes = document.getElementById('pendingOrders');
+
+    // Contar pedidos por estado
+    const pendientes = pedidos.filter(p => p.estado === "Pendiente").length;
+    const finalizados = pedidos.filter(p => p.estado === "Finalizado").length;
+    const total = pedidos.length;
+
+    // Actualizar los contadores en el DOM
+    totalPedidos.textContent = total;
+    pedidosPendientes.textContent = pendientes;
+    pedidosFinalizados.textContent = finalizados;
+}
+
 function crearPedido() {
     // Obtener los datos del pedido
     const nombreCliente = document.getElementById('nombreCliente').value.trim();
@@ -481,6 +497,7 @@ function crearPedido() {
     mostrarPedidos();
     mostrarProductos();
     mostrarProductosMasPedidos(); // Actualizar la visualización de productos más pedidos
+    actualizarEstadisticasPedidos();
 
     // Limpiar el formulario
     document.getElementById('nombreCliente').value = '';
