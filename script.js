@@ -417,6 +417,7 @@ function eliminarProductoSeleccionado(index) {
 function actualizarEstadisticasPedidos() {
     const totalPedidos = document.getElementById('totalOrders');
     const pedidosPendientes = document.getElementById('pendingOrders');
+    const pedidosFinalizados = 259;
 
     // Contar pedidos por estado
     const pendientes = pedidos.filter(p => p.estado === "Pendiente").length;
