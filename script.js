@@ -422,7 +422,7 @@ function actualizarEstadisticasPedidos() {
     // Contar pedidos por estado
     const pendientes = pedidos.filter(p => p.estado === "Pendiente").length;
     const finalizados = pedidos.filter(p => p.estado === "Finalizado").length;
-    const total = pedidos.length;
+    const total = pedidos.length + pedidosFinalizados;
 
     // Actualizar los contadores en el DOM
     totalPedidos.textContent = total;
