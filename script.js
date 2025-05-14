@@ -283,11 +283,27 @@ document.getElementById("agregarZona").addEventListener("click", () => {
     // Generar un array de 7 números aleatorios entre 0 y 20
     const pedidosAleatorios = Array.from({ length: 7 }, () => Math.floor(Math.random() * 21));
 
-    // Añadir la nueva zona al array de datosHlo
+    // Añadir la nueva zona al array de datos
     datosZonas.push([nombreZona, tarifaZona, pedidosAleatorios]);
 
     // Actualizar la tabla con las zonas
     mostrarZonasFiltradas();
+
+    // Añadir la nueva zona al select del formulario de nuevo pedido
+    const selectZona = document.getElementById("zonaPedido");
+    const option = document.createElement("option");
+    option.value = nombreZona.toLowerCase(); // Usar el nombre en minúsculas como valor
+    option.textContent = nombreZona; // Mostrar el nombre de la zona
+    selectZona.appendChild(option);
+
+    // Añadir la nueva zona a la tabla de ingresos por zona
+    const tablaIngresos = document.getElementById("revenueByZoneTable");
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+        <td class="celda-dato">${nombreZona}</td>
+        <td class="celda-dato" id="${nombreZona.toLowerCase()}Revenue">0.00</td>
+    `;
+    tablaIngresos.appendChild(fila);
 
     // Limpiar los campos del formulario
     document.getElementById("nombreZona").value = "";
